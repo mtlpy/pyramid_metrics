@@ -1,0 +1,8 @@
+nose
+nose-parameterized
+nosexcover
+coverage
+mock
+webtest
+yanc
+pyramid
