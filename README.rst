@@ -3,20 +3,53 @@ Pyramid_metrics
 ===============
 
 Performance metrics for Pyramid using StatsD. The project aims at providing
-ways to instrument a Pyramid application in a least intrusive way.
+ways to instrument a Pyramid application in the least intrusive way.
+
+
+Installation
+============
+
+Install using setuptools, e.g. (within a virtualenv)::
+
+  $ pip install pyramid_metrics
+
+
+Setup
+=====
+
+Once ``pyramid_metrics`` is installed, you must use the ``config.include``
+mechanism to include it into your Pyramid project's configuration.  In your
+Pyramid project's ``__init__.py``:
+
+.. code-block:: python
+   :linenos:
+
+   config = Configurator(.....)
+   config.include('pyramid_metrics')
+
+Alternately you can use the ``pyramid.includes`` configuration value in your
+``.ini`` file:
+
+.. code-block:: ini
+   :linenos:
+
+   [app:myapp]
+   pyramid.includes = pyramid_metrics
 
 
 Usage
 =====
 
-Pyramid_metrics configuration (values are defaults)::
+Pyramid_metrics configuration (values are defaults):
 
-   pyramid.includes = pyramid_metrics
+.. code-block:: ini
+   :linenos:
 
+   [app:myapp]
    metrics.host = 127.0.0.1
    metrics.port = 8125
 
-   metrics.prefix = "application.stage"
+   metrics.prefix = application.stage
 
    metrics.route_performance = true
 
