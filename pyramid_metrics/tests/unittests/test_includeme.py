@@ -25,7 +25,8 @@ class TestMetricsInclude(unittest.TestCase):
             'metrics',
             reify=True)
 
-        config.add_tween.assert_called_once_with('.performance_tween_factory')
+        config.add_tween.assert_called_once_with(
+            'pyramid_metrics.tween.performance_tween_factory')
 
     @parameterized.expand([
         ('empty',
