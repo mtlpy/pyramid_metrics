@@ -50,7 +50,6 @@ Usage
 Pyramid_metrics configuration (values are defaults):
 
 .. code-block:: ini
-   :linenos:
 
    [app:myapp]
    metrics.host = localhost
