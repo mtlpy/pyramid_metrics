@@ -1,8 +1,8 @@
 Changelog
 =========
 
-Development
------------
+0.1.1 (2014-05-06)
+------------------
 
 * Fix incorrect maybe_dotted relative path usage in tween
 
