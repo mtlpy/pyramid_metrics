@@ -15,8 +15,6 @@ class Marker(object):
 
 class MetricsUtility(object):
     """ Pyramid utility for light metrology. Available as a request method.
-
-    Provides:
     """
 
     def __init__(self, request):
@@ -63,7 +61,7 @@ class MetricsUtility(object):
         if per_route:
             self._statsd.timing(self._route_key(stat), dt)
 
-    def mark_start(self, marker_name, per_route=True):
+    def mark_start(self, marker_name):
         """ Place a start time marker.
 
         >>> request.metrics.mark_start('longprocess')
