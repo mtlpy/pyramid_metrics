@@ -4,18 +4,21 @@ import mock
 from nose_parameterized import parameterized
 
 
-
 class TestMetricsInclude(unittest.TestCase):
 
-    @mock.patch('pyramid_metrics.MetricsUtility')
+    @mock.patch('pyramid_metrics.utility.MetricsUtility')
     def test_includeme(self, m_utility):
-        from pyramid_metrics import includeme
+        from pyramid_metrics import includeme as include0
+        from pyramid_metrics.utility import includeme as include1
+        from pyramid_metrics.tween import includeme as include2
 
         config = mock.Mock()
         config.registry.settings = {}
 
         with mock.patch('socket.gethostbyname'):
-            includeme(config)
+            include0(config)
+            include1(config)
+            include2(config)
 
         config.add_request_method.assert_called_once_with(
             m_utility.request_method,
@@ -23,7 +26,6 @@ class TestMetricsInclude(unittest.TestCase):
             reify=True)
 
         config.add_tween.assert_called_once_with('.performance_tween_factory')
-
 
     @parameterized.expand([
         ('empty',
@@ -39,7 +41,7 @@ class TestMetricsInclude(unittest.TestCase):
          {'metrics.port': '1111'},
          {'metrics.host': '127.0.1.1', 'metrics.port': 1111})
     ])
-    @mock.patch('pyramid_metrics.MetricsUtility')
+    @mock.patch('pyramid_metrics.utility.MetricsUtility')
     def test_includeme_params(self, name, settings, expected, m_utility):
         from pyramid_metrics import includeme
 
@@ -54,19 +56,7 @@ class TestMetricsInclude(unittest.TestCase):
 
         self.assertEqual(config.registry.settings, expected)
 
-    @mock.patch('pyramid_metrics.MetricsUtility')
-    def test_includeme_tween(self, m_utility):
-        from pyramid_metrics import includeme
-
-        config = mock.Mock()
-        config.registry.settings = {}
-
-        with mock.patch('socket.gethostbyname'):
-            includeme(config)
-
-        config.add_tween.assert_called_once_with('.performance_tween_factory')
-
-    @mock.patch('pyramid_metrics.MetricsUtility')
+    @mock.patch('pyramid_metrics.utility.MetricsUtility')
     def test_includeme_tween_disabled(self, m_utility):
         from pyramid_metrics import includeme
 

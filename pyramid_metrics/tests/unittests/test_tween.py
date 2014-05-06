@@ -5,6 +5,7 @@ from nose_parameterized import parameterized
 
 from pyramid import testing
 
+
 class TestMetricsTweenFactory(unittest.TestCase):
 
     def setUp(self):
@@ -13,13 +14,12 @@ class TestMetricsTweenFactory(unittest.TestCase):
         self.handler = mock.Mock(name='handler')
 
     def test_tween_factory(self):
-        from pyramid_metrics import performance_tween_factory
+        from pyramid_metrics.tween import performance_tween_factory
 
         performance_tween_factory(self.handler, self.registry)
 
-
     def test_tween_factory_name(self):
-        from pyramid_metrics import performance_tween_factory
+        from pyramid_metrics.tween import performance_tween_factory
 
         tween = performance_tween_factory(self.handler, self.registry)
 
@@ -35,7 +35,7 @@ class TestMetricsTweenSafety(unittest.TestCase):
         self.request = mock.Mock(name='request')
         self.request.metrics = mock.Mock(name='MetricsUtility')
 
-        from pyramid_metrics import performance_tween_factory
+        from pyramid_metrics.tween import performance_tween_factory
         self.tween = performance_tween_factory(self.handler, None)
 
     def _call(self):
@@ -46,7 +46,8 @@ class TestMetricsTweenSafety(unittest.TestCase):
         self.handler.assert_called_once_with(self.request)
 
     def test_exception(self):
-        class test_exc(Exception): pass
+        class test_exc(Exception):
+            pass
         self.handler.side_effect = test_exc()
 
         with self.assertRaises(test_exc):
@@ -65,7 +66,7 @@ class TestMetricsTween(unittest.TestCase):
         self.request = mock.Mock(name='request')
         self.request.metrics = mock.Mock(name='MetricsUtility')
 
-        from pyramid_metrics import performance_tween_factory
+        from pyramid_metrics.tween import performance_tween_factory
         self.tween = performance_tween_factory(self.handler, None)
 
     def _call(self):
@@ -85,7 +86,8 @@ class TestMetricsTween(unittest.TestCase):
             'request', suffix=suffix)
 
     def test_exception(self):
-        class test_exc(Exception): pass
+        class test_exc(Exception):
+            pass
         self.handler.side_effect = test_exc()
 
         with self.assertRaises(test_exc):
