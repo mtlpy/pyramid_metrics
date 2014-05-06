@@ -10,7 +10,7 @@ def includeme(config):
 
     if asbool(settings.get('metrics.route_performance', True)):
         log.info('Add route metrics tween')
-        config.add_tween('.performance_tween_factory')
+        config.add_tween('pyramid_metrics.tween.performance_tween_factory')
 
 
 def performance_tween_factory(handler, registry):
