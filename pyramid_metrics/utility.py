@@ -1,6 +1,21 @@
+import logging
 import time
 
 from statsd import StatsClient
+
+log = logging.getLogger(__name__)
+
+
+def includeme(config):
+    settings = config.registry.settings
+
+    host = settings['metrics.host']
+    port = settings['metrics.port']
+
+    log.info("Add metrics utility (sending to %s:%s)", host, port)
+
+    config.add_request_method(MetricsUtility.request_method, 'metrics',
+                              reify=True)
 
 
 class Marker(object):
