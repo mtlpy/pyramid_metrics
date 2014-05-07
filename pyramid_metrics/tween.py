@@ -35,6 +35,7 @@ def performance_tween_factory(handler, registry):
             else:
                 suffix = '.xxx'
             request.metrics.mark_stop('request', suffix=suffix)
+            # request.metrics.mark_stop('request', suffix='.total')
 
             return response
 
