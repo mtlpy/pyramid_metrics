@@ -1,6 +1,7 @@
 import unittest
 
 import mock
+from nose_parameterized import parameterized
 
 
 class TestMetricsUtilityBase(unittest.TestCase):
@@ -54,39 +55,49 @@ class TestMetricsUtility(TestMetricsUtilityBase):
             mu._route_key('test'),
             'route.%s.test' % self.request.matched_route.name.lower())
 
+    @parameterized.expand([
+        ('key_str', 'member1.member2'),
+        ('key_tuple', ('member1', 'member2')),
+        ('key_list', ['member1', 'member2']),
+    ])
+    def test_key(self, name, stat):
+        mu = self.get_metrics_utility()
+
+        self.assertEqual(mu._key(stat), 'member1.member2')
+
     def test_incr(self):
         mu = self.get_metrics_utility()
 
-        mu.incr('incrkey')
-        mu._statsd.incr.assert_called_with('incrkey', count=1)
+        mu.incr(('incr', 'key'))
+        mu._statsd.incr.assert_called_with('incr.key', count=1)
 
         mu._statsd.reset()
-        mu.incr('incrkey', count=42)
-        mu._statsd.incr.assert_called_with('incrkey', count=42)
+        mu.incr(('incr', 'key'), count=42)
+        mu._statsd.incr.assert_called_with('incr.key', count=42)
 
     def test_incr_per_route(self):
         mu = self.get_metrics_utility()
 
-        mu.incr('incrkey', per_route=True)
+        mu.incr(('incr', 'key'), per_route=True)
         mu._statsd.incr.assert_has_calls([
-            mock.call('incrkey', count=1),
-            mock.call('route.%s.incrkey' %
+            mock.call('incr.key', count=1),
+            mock.call('route.%s.incr.key' %
                 self.request.matched_route.name.lower(), count=1),
         ])
 
     def test_timing(self):
         mu = self.get_metrics_utility()
 
-        mu.timing('timingkey', 123)
-        mu._statsd.timing.assert_called_with('timingkey', 123)
+        mu.timing(('timing', 'key'), 123)
+        mu._statsd.timing.assert_called_with('timing.key', 123)
 
     def test_timing_per_route(self):
         mu = self.get_metrics_utility()
 
-        mu.timing('timingkey', 123, per_route=True)
+        mu.timing(('timing', 'key'), 123, per_route=True)
         mu._statsd.timing.assert_has_calls([
-            mock.call('timingkey', 123),
-            mock.call('route.%s.timingkey' %
+            mock.call('timing.key', 123),
+            mock.call('route.%s.timing.key' %
                 self.request.matched_route.name.lower(), 123),
         ])
 
@@ -128,6 +139,24 @@ class TestMetricsUtility(TestMetricsUtilityBase):
             key,
             'route.%s.testkey' % mu.request.matched_route.name.lower())
         self.assertTrue(t_interval_down <= dt <= t_interval_up)
+
+    def test_mark_stop_prefix(self):
+        mu = self.get_metrics_utility()
+
+        mu.mark_start('testkey')
+        mu.mark_stop('testkey', prefix=('pre', 'fix'))
+
+        key, dt = mu._statsd.timing.call_args_list[0][0]
+        self.assertEqual(key, 'pre.fix.testkey')
+
+    def test_mark_stop_suffix(self):
+        mu = self.get_metrics_utility()
+
+        mu.mark_start('testkey')
+        mu.mark_stop('testkey', suffix=('suf', 'fix'))
+
+        key, dt = mu._statsd.timing.call_args_list[0][0]
+        self.assertEqual(key, 'testkey.suf.fix')
 
 
 class TestMetricsUtilityFailsafe(TestMetricsUtilityBase):

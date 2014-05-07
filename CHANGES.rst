@@ -4,6 +4,9 @@ Changelog
 Development
 -----------
 
+* Add HTTP method in route performance stat name
+* Change API a bit to accept tuple/list as stat name/prefix/suffix
+
 0.1.2 (2014-05-07)
 ------------------
 

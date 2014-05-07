@@ -73,17 +73,18 @@ class TestMetricsTween(unittest.TestCase):
         return self.tween(self.request)
 
     @parameterized.expand([
-        ('status_OK', 200, '.2xx'),
-        ('status_REDIRECT', 300, '.3xx'),
-        ('status_CLIENTERROR', 400, '.4xx'),
-        ('status_SERVERERROR', 500, '.5xx'),
+        ('status_OK', 200, '2xx'),
+        ('status_REDIRECT', 300, '3xx'),
+        ('status_CLIENTERROR', 400, '4xx'),
+        ('status_SERVERERROR', 500, '5xx'),
     ])
     def test_ok(self, name, status, suffix):
         self.response.status_code = status
         self._call()
         self.request.metrics.mark_start.assert_called_once_with('request')
         self.request.metrics.mark_stop.assert_called_once_with(
-            'request', suffix=suffix)
+            'request',
+            suffix=(self.request.method.lower(), suffix))
 
     def test_exception(self):
         class test_exc(Exception):
@@ -95,4 +96,5 @@ class TestMetricsTween(unittest.TestCase):
 
         self.request.metrics.mark_start.assert_called_once_with('request')
         self.request.metrics.mark_stop.assert_called_once_with(
-            'request', suffix='.exc')
+            'request',
+            suffix=(self.request.method.lower(), 'exc'))
