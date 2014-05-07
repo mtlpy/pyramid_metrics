@@ -48,10 +48,15 @@ class MetricsUtility(object):
 
     @property
     def route_name(self):
-        if self.request.matched_route is None:
-            return 'unknown'
+        """ Get a route name from URL Dispatch or Traversal """
+        if self.request.matched_route:
+            route_name = self.request.matched_route.name
         else:
-            return self.request.matched_route.name
+            ctx_class = self.request.context.__class__
+            ctx_name = ctx_class.__name__
+            ctx_module = ctx_class.__module__.rsplit('.', 1)[-1]
+            route_name = '%s_%s' % (ctx_module, ctx_name)
+        return route_name.lower()
 
     def _route_key(self, stat):
         return 'route.%s.%s' % (self.route_name, stat)

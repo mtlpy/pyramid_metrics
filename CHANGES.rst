@@ -4,6 +4,8 @@ Changelog
 Development
 -----------
 
+* Generate useful stat name from request context (for Traversal)
+
 0.1.1 (2014-05-06)
 ------------------
 

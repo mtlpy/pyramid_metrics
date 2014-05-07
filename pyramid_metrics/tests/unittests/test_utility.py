@@ -40,16 +40,19 @@ class TestMetricsUtility(TestMetricsUtilityBase):
     def test_route_name(self):
         mu = self.get_metrics_utility()
 
-        self.assertEqual(mu.route_name, self.request.matched_route.name)
+        self.assertEqual(
+            mu.route_name,
+            self.request.matched_route.name.lower())
 
         self.request.matched_route = None
-        self.assertEqual(mu.route_name, 'unknown')
+        self.assertEqual(mu.route_name, 'mock_mock')
 
     def test_route_key(self):
         mu = self.get_metrics_utility()
 
-        self.assertEqual(mu._route_key('test'),
-                         'route.%s.test' % self.request.matched_route.name)
+        self.assertEqual(
+            mu._route_key('test'),
+            'route.%s.test' % self.request.matched_route.name.lower())
 
     def test_incr(self):
         mu = self.get_metrics_utility()
@@ -67,8 +70,8 @@ class TestMetricsUtility(TestMetricsUtilityBase):
         mu.incr('incrkey', per_route=True)
         mu._statsd.incr.assert_has_calls([
             mock.call('incrkey', count=1),
-            mock.call('route.%s.incrkey' % self.request.matched_route.name,
-                      count=1),
+            mock.call('route.%s.incrkey' %
+                self.request.matched_route.name.lower(), count=1),
         ])
 
     def test_timing(self):
@@ -83,7 +86,8 @@ class TestMetricsUtility(TestMetricsUtilityBase):
         mu.timing('timingkey', 123, per_route=True)
         mu._statsd.timing.assert_has_calls([
             mock.call('timingkey', 123),
-            mock.call('route.%s.timingkey' % self.request.matched_route.name, 123),
+            mock.call('route.%s.timingkey' %
+                self.request.matched_route.name.lower(), 123),
         ])
 
     def test_mark_start(self):
@@ -120,7 +124,9 @@ class TestMetricsUtility(TestMetricsUtilityBase):
 
         key, dt = mu._statsd.timing.call_args_list[1][0]
 
-        self.assertEqual(key, 'route.%s.testkey' % mu.request.matched_route.name)
+        self.assertEqual(
+            key,
+            'route.%s.testkey' % mu.request.matched_route.name.lower())
         self.assertTrue(t_interval_down <= dt <= t_interval_up)
 
 
