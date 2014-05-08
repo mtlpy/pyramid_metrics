@@ -1,8 +1,8 @@
 Changelog
 =========
 
-Development
------------
+0.1.4 (2014-05-08)
+------------------
 
 * Fix exception when no context is attached to request object
 
