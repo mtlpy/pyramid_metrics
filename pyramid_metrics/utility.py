@@ -52,7 +52,10 @@ class MetricsUtility(object):
         if self.request.matched_route:
             route_name = self.request.matched_route.name
         else:
-            ctx_class = self.request.context.__class__
+            try:
+                ctx_class = self.request.context.__class__
+            except AttributeError:
+                return 'unkown'
             ctx_name = ctx_class.__name__
             ctx_module = ctx_class.__module__.rsplit('.', 1)[-1]
             route_name = '%s_%s' % (ctx_module, ctx_name)

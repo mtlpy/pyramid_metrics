@@ -162,6 +162,13 @@ class TestMetricsUtility(TestMetricsUtilityBase):
 class TestMetricsUtilityFailsafe(TestMetricsUtilityBase):
     """ Separate tests to check the API doesn't throw exceptions """
 
+    def test_route_name(self):
+        mu = self.get_metrics_utility()
+
+        self.request.matched_route = None
+        del self.request.context
+        mu.route_name
+
     def test_incr(self):
         mu = self.get_metrics_utility()
 
