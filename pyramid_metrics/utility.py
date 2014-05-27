@@ -1,6 +1,7 @@
 import logging
 import time
 
+from pyramid.threadlocal import get_current_request
 from statsd import StatsClient
 
 log = logging.getLogger(__name__)
@@ -16,6 +17,12 @@ def includeme(config):
 
     config.add_request_method(MetricsUtility.request_method, 'metrics',
                               reify=True)
+
+
+def get_current_metrics():
+    request = get_current_request()
+    if request is not None:
+        return request.metrics
 
 
 class Marker(object):
