@@ -1,8 +1,8 @@
 Changelog
 =========
 
-Development
------------
+0.1.5 (2014-05-30)
+------------------
 
 * Add get_current_metrics to get the metrics utility from the thread-local
   data if the current request object is not otherwise available (for example,
