@@ -19,10 +19,19 @@ def includeme(config):
                               reify=True)
 
 
+class MetricsError(Exception):
+    pass
+
+
+class MetricsUtilityUnavailable(MetricsError):
+    pass
+
+
 def get_current_metrics():
     request = get_current_request()
-    if request is not None:
-        return request.metrics
+    if request is None:
+        raise MetricsUtilityUnavailable("No active pyramid request")
+    return request.metrics
 
 
 class Marker(object):

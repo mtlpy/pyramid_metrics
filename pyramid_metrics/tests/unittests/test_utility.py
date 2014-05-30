@@ -3,6 +3,8 @@ import unittest
 import mock
 from nose_parameterized import parameterized
 
+from pyramid import testing
+
 
 class TestMetricsUtilityBase(unittest.TestCase):
     """ Base class for Utility test classes """
@@ -206,3 +208,28 @@ class TestMetricsUtilityFailsafe(TestMetricsUtilityBase):
 
         mu.mark_stop('test3', per_route=True)
 
+
+class TestMetricsUtilityCurrent(unittest.TestCase):
+    def tearDown(self):
+        testing.tearDown()
+
+    def test_current_utility(self):
+        from pyramid_metrics.utility import get_current_metrics
+
+        request = mock.Mock()
+        testing.setUp(request=request)
+
+        metrics = get_current_metrics()
+        self.assertEqual(metrics, request.metrics)
+
+
+    def test_current_utility_no_request(self):
+        from pyramid_metrics.utility import (
+            get_current_metrics,
+            MetricsUtilityUnavailable,
+            )
+
+        testing.setUp(request=None)
+
+        with self.assertRaises(MetricsUtilityUnavailable):
+            get_current_metrics()
