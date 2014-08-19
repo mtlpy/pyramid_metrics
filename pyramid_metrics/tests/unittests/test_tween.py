@@ -80,21 +80,26 @@ class TestMetricsTween(unittest.TestCase):
     ])
     def test_ok(self, name, status, suffix):
         self.response.status_code = status
-        self._call()
-        self.request.metrics.mark_start.assert_called_once_with('request')
-        self.request.metrics.mark_stop.assert_called_once_with(
-            'request',
-            suffix=(self.request.method.lower(), suffix))
+        with mock.patch('pyramid_metrics.tween.time') as m_time:
+            m_time.side_effect = [1, 2]
+            self._call()
+
+        self.request.metrics.timing.assert_called_once_with(
+            ['request', self.request.method.lower(), suffix],
+            dt=1,
+            per_route=True)
 
     def test_exception(self):
         class test_exc(Exception):
             pass
         self.handler.side_effect = test_exc()
 
-        with self.assertRaises(test_exc):
-            self._call()
+        with mock.patch('pyramid_metrics.tween.time') as m_time:
+            m_time.side_effect = [1, 2]
+            with self.assertRaises(test_exc):
+                self._call()
 
-        self.request.metrics.mark_start.assert_called_once_with('request')
-        self.request.metrics.mark_stop.assert_called_once_with(
-            'request',
-            suffix=(self.request.method.lower(), 'exc'))
+        self.request.metrics.timing.assert_called_once_with(
+            ['request', self.request.method.lower(), 'exc'],
+            dt=1,
+            per_route=True)

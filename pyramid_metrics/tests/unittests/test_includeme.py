@@ -10,6 +10,7 @@ class TestMetricsInclude(unittest.TestCase):
     def test_includeme(self, m_utility):
         from pyramid_metrics import includeme as include0
         from pyramid_metrics.utility import includeme as include1
+        from pyramid_metrics.utility import get_request_method
         from pyramid_metrics.tween import includeme as include2
 
         config = mock.Mock()
@@ -21,7 +22,7 @@ class TestMetricsInclude(unittest.TestCase):
             include2(config)
 
         config.add_request_method.assert_called_once_with(
-            m_utility.request_method,
+            get_request_method,
             'metrics',
             reify=True)
 
