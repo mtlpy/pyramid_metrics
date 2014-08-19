@@ -88,9 +88,6 @@ class MetricsUtility(object):
 
     def incr(self, stat, count=1, per_route=False):
         """ Push a COUNTER metric
-
-        >>> request.metrics.incr('mysql.reconnection')
-        >>> request.metrics.incr(['mysql', 'reconnection'])
         """
         self._statsd.incr(self._key(stat), count=count)
         if per_route:
@@ -100,10 +97,6 @@ class MetricsUtility(object):
     def timing(self, stat, dt, per_route=False):
         """ Push a TIMER metric (in milliseconds)
 
-        >>> start_time = time()
-        >>> ...
-        >>> request.metrics.timing('mysql.select', time() - start_time)
-        >>> request.metrics.timing(['mysql', 'select'], time() - start_time)
         """
         self._statsd.timing(self._key(stat), dt)
         if per_route:
@@ -111,10 +104,6 @@ class MetricsUtility(object):
 
     def mark_start(self, marker_name):
         """ Place a start time marker.
-
-        >>> request.metrics.mark_start('longprocess')
-        >>> ...
-        >>> request.metrics.mark_stop('longprocess')
         """
         start_marker = Marker(marker_name)
         self.active_markers[marker_name] = start_marker
@@ -122,17 +111,6 @@ class MetricsUtility(object):
     def mark_stop(self, marker_name, prefix='', suffix='', per_route=True):
         """ Place a stop time marker. Effectively pushing an TIMER from a
             start marker
-
-        >>> try:
-        >>>     response = metrics.mark_start('longprocess')
-        >>>     ...
-        >>> except:
-        >>>     metrics.mark_stop('longprocess', prefix='exc')
-        >>> else:
-        >>>     if response.condition:
-        >>>         metrics.mark_stop('longprocess', prefix=response.outcome)
-        >>>     else:
-        >>>         metrics.mark_stop('longprocess')
         """
         stop_marker = Marker(marker_name)
         start_marker = self.active_markers.get(marker_name)
