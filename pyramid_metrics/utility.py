@@ -99,6 +99,17 @@ class MetricsUtility(object):
         if per_route:
             self._statsd.timing(self._route_key(self._key(stat)), int(dt * 1000))
 
+    def timer(self, stat, per_route=False):
+        """ TIMER as a context manager """
+        class Timer(object):
+            def __enter__(timer_self):
+                self.mark_start(stat)
+            def __exit__(timer_self, exc_type, exc_value, traceback):
+                if exc_type is None:
+                    self.mark_stop(stat, per_route=per_route)
+                else:
+                    self.mark_stop(stat, suffix='exc', per_route=per_route)
+        return Timer()
 
     def mark_start(self, stat):
         """ Place a start time marker """
