@@ -4,6 +4,10 @@ Changelog
 Development
 -----------
 
+* Change API of MetricsUtility.timing to use second(float) rather than ms(int)
+* Add a timer as a context-manager
+* Add functional tests
+
 0.1.5 (2014-05-30)
 ------------------
 

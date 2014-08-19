@@ -124,6 +124,11 @@ https://github.com/etsy/statsd/blob/master/docs/metric_types.md#timing
        # Send measure to key 'something_slow.ok'
        request.metrics.marker_stop('something_slow', suffix='ok')
 
+   # Using the context manager
+   with request.metrics.timer(['longprocess', processname]):
+      run_longprocess(processname)
+      # Send measure to 'longprocess.foobar' or 'longprocess.foobar.exc'
+
 
 Currently implemented
 =====================
@@ -132,12 +137,12 @@ Currently implemented
 - Ability to send metrics per Pyramid route
 - Simple time marker mechanism
 - Simple counter
+- Context manager for Timing metric type
 
 
 TODO
 ====
 
-- Context manager for Timing metric type
 - Full StatsD metric types
 - Extensions for automatic metrology (SQLAlchemy, MongoDB, Requests...)
 - Whitelist/blacklist of metrics
