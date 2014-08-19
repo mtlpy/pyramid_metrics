@@ -1,3 +1,4 @@
+from time import time
 import logging
 
 from pyramid.settings import asbool
@@ -16,12 +17,14 @@ def includeme(config):
 def performance_tween_factory(handler, registry):
 
     def performance_tween(request):
-        http_method = request.method.lower()
+        start = time()
+        stat = ['request', request.method.lower()]
+
         try:
-            request.metrics.mark_start('request')
             response = handler(request)
         except:
-            request.metrics.mark_stop('request', suffix=(http_method, 'exc'))
+            dt = time() - start
+            request.metrics.timing(stat + ['exc'], dt=dt, per_route=True)
             raise
 
         else:
@@ -36,10 +39,8 @@ def performance_tween_factory(handler, registry):
             else:
                 status_code = 'xxx'
 
-            request.metrics.mark_stop(
-                'request', suffix=(http_method, status_code))
-            # request.metrics.mark_stop(
-            #     'request', suffix=(http_method, 'total'))
+            dt = time() - start
+            request.metrics.timing(stat + [status_code], dt=dt, per_route=True)
 
             return response
 
