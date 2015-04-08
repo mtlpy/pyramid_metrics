@@ -93,6 +93,13 @@ class MetricsUtility(object):
             self._statsd.incr(self._route_key(self._key(stat)),
                               count=count)
 
+    def gauge(self, stat, value, delta=False, per_route=False):
+        """ Push a GAUGE metric """
+        self._statsd.gauge(self._key(stat), value, delta=delta)
+        if per_route:
+            self._statsd.gauge(self._route_key(self._key(stat)), value,
+                               delta=delta)
+
     def timing(self, stat, dt, per_route=False):
         """ Push a TIMER metric """
         self._statsd.timing(self._key(stat), int(dt * 1000))

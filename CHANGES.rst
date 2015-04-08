@@ -4,6 +4,8 @@ Changelog
 Development
 -----------
 
+* Add support for GAUGE metrics.
+
 0.2.0 (2014-08-19)
 ------------------
 

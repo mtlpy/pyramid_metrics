@@ -75,6 +75,24 @@ class TestMetricsUtility(TestMetricsUtilityBase):
             mock.call('route.route_name.incr.key', count=1),
         ])
 
+    def test_gauge(self):
+        mu = self.get_metrics_utility()
+        mu.gauge(('gauge', 'key'), 42)
+        mu._statsd.gauge.assert_called_with('gauge.key', 42, delta=False)
+
+    def test_gauge_delta(self):
+        mu = self.get_metrics_utility()
+        mu.gauge(('gauge', 'key'), 42, delta=True)
+        mu._statsd.gauge.assert_called_with('gauge.key', 42, delta=True)
+
+    def test_gauge_per_route(self):
+        mu = self.get_metrics_utility()
+        mu.gauge(('gauge', 'key'), 42, per_route=True)
+        mu._statsd.gauge.assert_has_calls([
+            mock.call('gauge.key', 42, delta=False),
+            mock.call('route.route_name.gauge.key', 42, delta=False),
+        ])
+
     def test_timing(self):
         mu = self.get_metrics_utility()
 
