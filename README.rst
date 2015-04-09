@@ -96,6 +96,21 @@ https://github.com/etsy/statsd/blob/master/docs/metric_types.md#counting
    request.metrics.incr(('cache', cache_action))
 
 
+Gauge
+-----
+
+StatsD type:
+https://github.com/etsy/statsd/blob/master/docs/metric_types.md#gauges
+
+.. code-block:: python
+
+   # Set the number of SQL connections to 8
+   request.metrics.gauge('sql.connections', 8)
+
+   # Increase the value of the metrics by some amount
+   request.metrics.gauge('network.egress', 34118, delta=True)
+
+
 Timer
 -----
 
