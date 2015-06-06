@@ -6,3 +6,4 @@ mock
 webtest
 yanc == 0.2.4
 pyramid
+-e .
