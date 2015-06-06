@@ -6,12 +6,12 @@ Performance metrics for Pyramid using StatsD. The project aims at providing
 ways to instrument a Pyramid application in the least intrusive way.
 
 * PyPI: https://pypi.python.org/pypi/pyramid_metrics
-* Bitbucket: https://bitbucket.org/Ludia/pyramid_metrics
+* Github: https://github.com/ludia/pyramid_metrics
 * |droneio|
 
 .. |droneio| image::
-   https://drone.io/bitbucket.org/Ludia/pyramid_metrics/status.png
-   :target: https://drone.io/bitbucket.org/Ludia/pyramid_metrics
+   https://drone.io/github.com/ludia/pyramid_metrics/status.png
+   :target: https://drone.io/github.com/ludia/pyramid_metrics
    :alt: Tests on drone.io
 
 

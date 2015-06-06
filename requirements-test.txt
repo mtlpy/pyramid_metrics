@@ -4,5 +4,5 @@ nosexcover
 coverage
 mock
 webtest
-yanc
+yanc == 0.2.4
 pyramid
