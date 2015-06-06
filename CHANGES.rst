@@ -1,8 +1,8 @@
 Changelog
 =========
 
-Development
------------
+0.3.0 (2015-06-06)
+------------------
 
 * Add support for GAUGE metrics.
 
