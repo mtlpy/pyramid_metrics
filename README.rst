@@ -144,7 +144,6 @@ https://github.com/etsy/statsd/blob/master/docs/metric_types.md#timing
       run_longprocess(processname)
       # Send measure to 'longprocess.foobar' or 'longprocess.foobar.exc'
 
-
 Currently implemented
 =====================
 
@@ -170,3 +169,33 @@ Considerations
 - The general error policy is: always failsafe. Pyramid_metrics should NEVER
   break your application.
 - The DNS resolution is done during configuration to avoid recurring latencies.
+
+Development
+===========
+
+Run tests
+---------
+
+The tests are run by nose and all dependencies are in requirements-test.txt.
+
+.. code-block:: shell
+
+   $ pip install -r requirements-test
+   ...
+
+   $ nosetests
+   ...
+
+
+Run tests with tox
+------------------
+
+.. code-block:: shell
+
+   $ pip install tox
+   ...
+
+   $ tox          # Run on python 2.7 and python 3.4
+   ...
+
+   $ tox -e py34  # Run on python 3.4 only

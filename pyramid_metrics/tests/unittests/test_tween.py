@@ -30,7 +30,7 @@ class TestMetricsTweenSafety(unittest.TestCase):
     """Safety check. This tween shouldn't change the outcome of the response"""
 
     def setUp(self):
-        self.response = mock.Mock(name='response')
+        self.response = mock.Mock(name='response', status_code=200)
         self.handler = mock.Mock(name='handler', return_value=self.response)
         self.request = mock.Mock(name='request')
         self.request.metrics = mock.Mock(name='MetricsUtility')
