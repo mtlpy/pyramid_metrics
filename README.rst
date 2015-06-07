@@ -7,12 +7,12 @@ ways to instrument a Pyramid application in the least intrusive way.
 
 * PyPI: https://pypi.python.org/pypi/pyramid_metrics
 * Github: https://github.com/ludia/pyramid_metrics
-* |droneio|
+* |travis|
 
-.. |droneio| image::
-   https://drone.io/github.com/ludia/pyramid_metrics/status.png
-   :target: https://drone.io/github.com/ludia/pyramid_metrics
-   :alt: Tests on drone.io
+.. |travis| image::
+   https://travis-ci.org/ludia/pyramid_metrics.svg?branch=master
+   :target: https://travis-ci.org/ludia/pyramid_metrics
+   :alt: Tests on TravisCI
 
 
 Installation
