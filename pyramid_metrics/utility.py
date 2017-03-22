@@ -26,6 +26,10 @@ class MetricsUtilityUnavailable(MetricsError):
     pass
 
 
+def del_statsd(request):
+    del request.metrics
+
+
 def get_current_metrics():
     request = get_current_request()
     if request is None:
@@ -41,6 +45,8 @@ def get_request_method(request):
         )
     route_name = get_route_name(request)
 
+    # Close the listening socket immediately at end of request.
+    request.add_finished_callback(del_statsd)
     return MetricsUtility(statsd=statsd, route_name=route_name)
 
 
