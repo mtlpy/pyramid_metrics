@@ -6,3 +6,5 @@ nosetests.xml
 *.egg-info/
 .tox
 dist/
+
+__pycache__
