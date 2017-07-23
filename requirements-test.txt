@@ -3,4 +3,7 @@ parameterized
 mock
 webtest
 pyramid
+
+zest.releaser
+
 -e .
