@@ -1,8 +1,11 @@
 Changelog
 =========
 
-Development
------------
+0.3.1.dev0 (unreleased)
+-----------------------
+
+* Fix UDP socket leak (thanks to @jrwren)
+* Some refreshs for CI tests, packaging, ownership
 
 0.3.0 (2015-06-06)
 ------------------

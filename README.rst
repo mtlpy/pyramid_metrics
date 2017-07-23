@@ -199,3 +199,12 @@ Run tests with tox
    ...
 
    $ tox -e py34  # Run on python 3.4 only
+
+
+Contributors
+============
+
+- Pior Bastida (@pior)
+- Philippe Gauthier (@deuxpi)
+- Hadrien David (@hadrien)
+- Jay R. Wren (@jrwren)
