@@ -208,6 +208,13 @@ Release
 
 The release process relies on *zest.releaser* and its config in `setup.cfg`.
 
+A bug in distutils/zest.releaser forces us to keep one setting commented out
+in setup.cfg. See https://github.com/zestsoftware/zest.releaser/issues/212.
+
+1. Uncomment this annoying little setting: `tag-format = v%%(version)s`
+
+2. Run `fullrelease`
+
 .. code-block:: shell
 
    $ pip install -r requirements-test
