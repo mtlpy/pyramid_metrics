@@ -12,7 +12,7 @@ def read(fname):
 
 setup(
     name='pyramid_metrics',
-    version='0.3.1.dev0',
+    version='0.3.1',
     author='Pior Bastida',
     author_email='pior@pbastida.net',
     description='Performance metrics for Pyramid using StatsD',
